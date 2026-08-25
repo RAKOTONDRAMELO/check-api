@@ -13,17 +13,29 @@ export class Assurance {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  dateAssurance!: Date;
+  // @Column()
+  // durabilty?: string;
 
-  @Column()
-  dateProchain!: Date;
+  // @Column()
+  // price?: number;
 
-  @Column({ nullable: true })
-  assuranceRectoPath?: string;
+  // @Column({ nullable: true })
+  // agence?: string;
 
-  @Column({ nullable: true })
-  assuranceVersoPath?: string;
+  @Column({ nullable: true, name: 'front_picture' })
+  frontPicture?: string;
+
+  @Column({ nullable: true, name: 'back_picture' })
+  backPicture?: string;
+
+  // @Column({ nullable: true, name: 'durability' })
+  // durability?: number; // nombre de mois
+
+  // @Column({ nullable: true, name: 'release_date' })
+  // releaseDate?: Date; // date de paiement
+
+  // @Column({ nullable: true, name: 'begin_date' })
+  // beginDate?: Date; // date de debut de validite
 
   @CreateDateColumn()
   createdAt!: Date;

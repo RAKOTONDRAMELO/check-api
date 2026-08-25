@@ -14,16 +14,16 @@ export class AssuranceResponseDto {
 
   @Expose()
   @Transform(({ obj }: { obj: Assurance }) =>
-    obj.assuranceRectoPath
-      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/assurances/${obj.assuranceRectoPath}`
+    obj.frontPicture
+      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/assurances/${obj.frontPicture}`
       : null,
   )
   assuranceRectoUrl!: string | null;
 
   @Expose()
   @Transform(({ obj }: { obj: Assurance }) =>
-    obj.assuranceVersoPath
-      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/assurances/${obj.assuranceVersoPath}`
+    obj.backPicture
+      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/assurances/${obj.backPicture}`
       : null,
   )
   assuranceVersoUrl!: string | null;

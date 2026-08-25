@@ -29,10 +29,10 @@ export class AssurancesService {
     if (!car) throw new NotFoundException('Car not found');
 
     const assurance = this.assuranceRepo.create({
-      dateAssurance: new Date(dto.dateAssurance),
-      dateProchain: new Date(dto.dateProchain),
-      assuranceRectoPath: files?.assurance?.[0]?.filename,
-      assuranceVersoPath: files?.assurance?.[1]?.filename,
+      // dateAssurance: new Date(dto.dateAssurance),
+      // dateProchain: new Date(dto.dateProchain),
+      frontPicture: files?.assurance?.[0]?.filename,
+      backPicture: files?.assurance?.[1]?.filename,
       car,
     });
 

@@ -14,5 +14,6 @@ import { DrivingCat } from './entities/driving_cat.entity';
   ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [TypeOrmModule],
 })
 export class UsersModule {}

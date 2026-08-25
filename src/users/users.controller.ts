@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   Body,
   Controller,
@@ -9,10 +12,10 @@ import {
   Put,
   Res,
   StreamableFile,
-  // UploadedFile,
   UploadedFiles,
   UseInterceptors,
-  // ValidationPipe,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 // import { ConfigModule } from '@nestjs/config';
 import { UsersService } from './users.service';
@@ -30,6 +33,11 @@ import * as fs from 'fs';
 import { CreateUserDto } from './dto/create_user.dto';
 import { UpdateUserDto } from './dto/update_user.dto';
 import { createReadStream } from 'fs';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from './enum';
+import { RolesGuard } from 'src/auth/roles.guard';
+// import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -37,17 +45,29 @@ export class UsersController {
     private readonly usersService: UsersService,
     private configService: ConfigService,
   ) {}
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  me(@Req() req) {
+    const me = this.usersService.findOne(req.user.userId);
+    return me;
+  }
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   getUsers() {
     const data = this.usersService.findAll();
     return data;
   }
   @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   getUser(@Param('id') id: number) {
     const data = this.usersService.findOne(id);
     return data;
   }
   @Get('/download/photo/:src/:module/:foldername/:filename')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   downloadImg(
     @Param('src') src: string,
     @Param('module') _module: string,
@@ -70,6 +90,8 @@ export class UsersController {
   }
 
   @Get('/download/pdf/:filename')
+  // @UseGuards(JwtAuthGuard,RolesGuard)
+  // @Roles(UserRole.ADMIN)
   downloadPdf(
     @Param('filename') filename: string,
     @Res({ passthrough: true }) res: Response,
@@ -92,6 +114,8 @@ export class UsersController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   // @UseInterceptors(FileInterceptor('profil'))
   // @UseInterceptors(FileInterceptor('cv'))
   @UseInterceptors(
@@ -152,7 +176,6 @@ export class UsersController {
           },
 
           filename: (req, file, cb) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             const userName = req.body.name || 'user';
             const uniqueName =
               file.fieldname +
@@ -200,6 +223,8 @@ export class UsersController {
     };
   }
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   // @UseInterceptors(FileInterceptor('profil'))
   // @UseInterceptors(FileInterceptor('cv'))
   @UseInterceptors(
@@ -260,7 +285,6 @@ export class UsersController {
           },
 
           filename: (req, file, cb) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             const userName = req.body.nom || 'user';
             const uniqueName =
               file.fieldname +
@@ -313,17 +337,23 @@ export class UsersController {
     );
   }
   @Put(':id/disable')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   disable(@Param('id') id: number) {
     console.log('disable user with id : ', id);
     return this.usersService.update(id, { acces: false });
   }
   @Put(':id/enable')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   enable(@Param('id') id: number) {
     console.log('enable user with id : ', id);
     return this.usersService.update(id, { acces: true });
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
   }

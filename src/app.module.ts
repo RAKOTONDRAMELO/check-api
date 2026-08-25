@@ -7,6 +7,11 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CarsModule } from './car/cars.module';
 import { AssurancesModule } from './assurance/assurance.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { WarningsModule } from './warnings/warnings.module';
+import { PlanningModule } from './planning/planning.module';
+import { RepairsActionModule } from './repairs_action/repairs_action.module';
+import { RepairsPlanningModule } from './repairs_planning/repairs_planning.module';
 
 @Module({
   imports: [
@@ -36,6 +41,11 @@ import { ConfigModule } from '@nestjs/config';
     CarsModule,
     AssurancesModule,
     UsersModule,
+    AuthModule,
+    WarningsModule,
+    PlanningModule,
+    RepairsActionModule,
+    RepairsPlanningModule,
   ],
   controllers: [AppController],
   providers: [AppService],

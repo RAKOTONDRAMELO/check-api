@@ -129,9 +129,9 @@ export class UsersService {
     }
 
     // Si password existe → hash
-    // if (dto.password) {
-    //   dto.password = await bcrypt.hash(dto.password, 10);
-    // }
+    if (dto.password) {
+      dto.password = await bcrypt.hash(dto.password, 10);
+    }
 
     // Merge des données
     Object.assign(user, dto);

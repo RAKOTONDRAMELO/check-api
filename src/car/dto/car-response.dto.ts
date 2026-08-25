@@ -1,5 +1,5 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
-import { Car } from '../entities/car.entity';
+// import { Car } from '../entities/car.entity'; 
 
 @Exclude() // Exclut tout par défaut
 export class CarResponseDto {
@@ -7,39 +7,65 @@ export class CarResponseDto {
   id!: number;
 
   @Expose()
-  place!: number;
+  type!: string;
 
   @Expose()
-  km!: number;
+  seats?: number;
 
   @Expose()
-  immatriculation?: string;
+  odometer?: number;
 
   @Expose()
-  anneeDeSortie!: number;
+  registrationNumber?: string;
 
   @Expose()
-  numChassis?: string;
+  releaseDate?: Date;
 
   @Expose()
-  @Transform(({ obj }: { obj: Car }) =>
-    obj.carteGriseRectoPath
-      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/cars/${obj.carteGriseRectoPath}`
-      : null,
-  )
-  carteGriseRectoUrl!: string | null;
-
+  chassisNumber?: string;
   @Expose()
-  @Transform(({ obj }: { obj: Car }) =>
-    obj.carteGriseVersoPath
-      ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/cars/${obj.carteGriseVersoPath}`
-      : null,
-  )
-  carteGriseVersoUrl!: string | null;
+  transmissionType?: string;
+  @Expose()
+  numberOfDoors?: number;
+  @Expose()
+  color?: string;
+  @Expose()
+  brand?: string;
+  @Expose()
+  model?: string;
+  @Expose()
+  bodyType?: string;
+  @Expose()
+  engineType?: string;
+  @Expose()
+  trunkCapacity?: number;
+  @Expose()
+  averageConsumption?: number;
+  @Expose()
+  purchaseType?: string;
+  @Expose()
+  purchasePrice?: number;
+  @Expose()
+  availabilityStatus?: string;
+
+  // @Transform(({ obj }: { obj: Car }) =>
+  //   obj.carteGriseRectoPath
+  //     ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/cars/${obj.carteGriseRectoPath}`
+  //     : null,
+  // )
+  // carteGriseRectoUrl!: string | null;
+
+  // @Expose()
+  // @Transform(({ obj }: { obj: Car }) =>
+  //   obj.carteGriseVersoPath
+  //     ? `${process.env.APP_URL || 'http://localhost:8000'}/uploads/cars/${obj.carteGriseVersoPath}`
+  //     : null,
+  // )
+  // carteGriseVersoUrl!: string | null;
 
   // Champs internes qu’on n’expose pas
-  carteGriseRectoPath?: string;
-  carteGriseVersoPath?: string;
+  // carteGriseRectoPath?: string;
+  // carteGriseVersoPath?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
